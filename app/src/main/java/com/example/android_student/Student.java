@@ -17,9 +17,26 @@ public class Student {
         this.regNumber = regNumber;
     }
 //methods
-    public String getGender(){
-        char[] chars = cnic.toCharArray();
-        return String.valueOf(chars.length);
+    public int getNumberOfWords(String nam){
+        this.name = nam;
+        return name.length();
+    }
+    public String getStatus(double c){
+        this.cgpa = c;
+        if(cgpa<2.0) return "suspended";
+        if(cgpa>=2.0 && cgpa<=2.5) return "below average";
+        if(cgpa>=2.5 && cgpa<=3.3) return "average";
+        if (cgpa>=3.3 && cgpa<=3.5) return "below good";
+        if (cgpa>=3.5 && cgpa<=4.0) return "excellent";
+        return "alien student";
+    }
+    public String getGender(String cn){
+        this.cnic = cn;
+        if(cnic.charAt(cnic.length()-1) %2==0){
+            return "FEMALE";
+        }
+        else return "MALE";
+        //return String.valueOf(chars.length);
         /*if(chars[chars.length -1] % 2 == 0){
             return "FEMALE";
         }

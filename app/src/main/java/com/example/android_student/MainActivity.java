@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 try {
-                    Toast.makeText(MainActivity.this, student.getGender(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, student.getGender(cnic.getText().toString()), Toast.LENGTH_SHORT).show();
                 }
                 catch(Exception e){
                     Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
@@ -75,6 +75,36 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        getAge.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view){
+                try{
+
+
+                } catch (Exception e) {
+                    Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        getNoOfWords.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view){
+                try{
+                    Toast.makeText(MainActivity.this, String.valueOf(student.getNumberOfWords(name.getText().toString())), Toast.LENGTH_SHORT).show();
+
+                } catch (Exception e) {
+                    Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        getStatus.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view){
+                try{
+                    Toast.makeText(MainActivity.this, student.getStatus(Double.valueOf(cgpa.getText().toString())), Toast.LENGTH_SHORT).show();
+
+                } catch (Exception e) {
+                    Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
 
     }
