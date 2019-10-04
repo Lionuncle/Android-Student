@@ -112,6 +112,18 @@
         app:layout_constraintTop_toBottomOf="@+id/textCGPA" />
 
     <TextView
+        android:id="@+id/datePickerText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="96dp"
+        android:textSize="20dp"
+        android:layout_marginTop="44dp"
+        android:onClick="showDatePickerDialog"
+        android:text="pick date of birth"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textHobbies" />
+
+    <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
