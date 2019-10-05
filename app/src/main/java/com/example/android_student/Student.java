@@ -1,5 +1,6 @@
 package com.example.android_student;
 
+import java.util.Calendar;
 import java.util.Date;
 
 public class Student {
@@ -17,12 +18,24 @@ public class Student {
         this.regNumber = regNumber;
     }
 //methods
-    public int getNumberOfWords(String nam){
-        this.name = nam;
+    public int getAge(int year,int month,int day){
+        Calendar dob = Calendar.getInstance();
+        Calendar today = Calendar.getInstance();
+
+        dob.set(year, month, day);
+
+        int age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
+
+        if (today.get(Calendar.DAY_OF_YEAR) < dob.get(Calendar.DAY_OF_YEAR)){
+            age--;
+        }
+
+        return age;
+    }
+    public int getNumberOfWords(){
         return name.length();
     }
-    public String getStatus(double c){
-        this.cgpa = c;
+    public String getStatus(){
         if(cgpa<2.0) return "suspended";
         if(cgpa>=2.0 && cgpa<=2.5) return "below average";
         if(cgpa>=2.5 && cgpa<=3.3) return "average";
@@ -30,8 +43,8 @@ public class Student {
         if (cgpa>=3.5 && cgpa<=4.0) return "excellent";
         return "alien student";
     }
-    public String getGender(String cn){
-        this.cnic = cn;
+    public String getGender(){
+
         if(cnic.charAt(cnic.length()-1) %2==0){
             return "FEMALE";
         }

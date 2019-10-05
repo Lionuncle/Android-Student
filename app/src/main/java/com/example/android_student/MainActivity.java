@@ -5,6 +5,8 @@ import androidx.fragment.app.DialogFragment;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -30,6 +32,9 @@ public class MainActivity extends AppCompatActivity {
     Button getInfo;
     Button save;
     Student student = new Student();
+    public static int currentYear;
+    public static int currentMonth;
+    public static int currentDay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +64,7 @@ public class MainActivity extends AppCompatActivity {
                     student.setCgpa( Double.valueOf(cgpa.getText().toString()) );
                     student.setRegNumber(regNumber.getText().toString());
                     student.setCnic(cnic.getText().toString());
-                    String[] hob = new String[20];
-                    hob[0] = hobbies.getText().toString();
+                    String[] hob = new String[20];hob[0] = hobbies.getText().toString();
                     student.setHobbies(hob);
                 } catch (Exception e) {
                     Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
@@ -75,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 try {
-                    Toast.makeText(MainActivity.this, student.getGender(cnic.getText().toString()), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, student.getGender(), Toast.LENGTH_SHORT).show();
                 }
                 catch(Exception e){
                     Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
@@ -96,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
         getNoOfWords.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
                 try{
-                    Toast.makeText(MainActivity.this, String.valueOf(student.getNumberOfWords(name.getText().toString())), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, String.valueOf(student.getNumberOfWords()), Toast.LENGTH_SHORT).show();
 
                 } catch (Exception e) {
                     Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
@@ -106,11 +110,36 @@ public class MainActivity extends AppCompatActivity {
         getStatus.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
                 try{
-                    Toast.makeText(MainActivity.this, student.getStatus(Double.valueOf(cgpa.getText().toString())), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, student.getStatus(), Toast.LENGTH_SHORT).show();
 
                 } catch (Exception e) {
                     Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+        getAge.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view){
+                Toast.makeText(MainActivity.this, String.valueOf(student.getAge(currentYear,currentMonth,currentDay)), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        getInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Dialog fbDialogue = new Dialog(getBaseContext(), android.R.style.Theme_Black_NoTitleBar);
+                fbDialogue.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(100, 0, 0, 0)));
+                fbDialogue.setContentView(R.layout.popup);
+                TextView info = findViewById(R.id.infoTextFragment);
+                String msg = "Name: "+name.getText()+" (Contains "+student.getNumberOfWords()+" words)\n"
+                        +"Registeration Number: "+student.getRegNumber()+"\n"
+                        +"Date of birth: "+currentDay+"/"+currentMonth+"/"+currentYear+"Age( "+student.getAge(currentYear,currentMonth,currentDay)
+                        +"Years) "
+                        +"CNIC: "+student.getCnic()
+                        +"Gender: "+student.getGender()
+                        +"Hobbies: "+student.getHobbies();
+                info.setText(msg);
+                fbDialogue.setCancelable(true);
+                fbDialogue.show();
             }
         });
 
@@ -123,21 +152,23 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
-            // Use the current date as the default date in the picker
             final Calendar c = Calendar.getInstance();
             int year = c.get(Calendar.YEAR);
             int month = c.get(Calendar.MONTH);
             int day = c.get(Calendar.DAY_OF_MONTH);
 
-            // Create a new instance of DatePickerDialog and return it
             return new DatePickerDialog(getActivity(), this, year, month, day);
         }
 
         public void onDateSet(DatePicker view, int year, int month, int day) {
-            // Do something with the date chosen by the user
-            Date d = new Date();
-            d.se
+
+            int cYear = Calendar.getInstance().get(Calendar.YEAR);
+            int cMonth = Calendar.getInstance().get(Calendar.MONTH);
+            int cDay = Calendar.getInstance().get(Calendar.YEAR);
             datepicker.setText(day+"/"+month+"/"+year);
+            currentYear = year;
+            currentMonth = month;
+            currentDay = day;
 
         }
     }
