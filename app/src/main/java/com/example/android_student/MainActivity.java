@@ -14,8 +14,10 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -126,20 +128,26 @@ public class MainActivity extends AppCompatActivity {
         getInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Dialog fbDialogue = new Dialog(getBaseContext(), android.R.style.Theme_Black_NoTitleBar);
-                fbDialogue.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(100, 0, 0, 0)));
-                fbDialogue.setContentView(R.layout.popup);
-                TextView info = findViewById(R.id.infoTextFragment);
-                String msg = "Name: "+name.getText()+" (Contains "+student.getNumberOfWords()+" words)\n"
-                        +"Registeration Number: "+student.getRegNumber()+"\n"
-                        +"Date of birth: "+currentDay+"/"+currentMonth+"/"+currentYear+"Age( "+student.getAge(currentYear,currentMonth,currentDay)
-                        +"Years) "
-                        +"CNIC: "+student.getCnic()
-                        +"Gender: "+student.getGender()
-                        +"Hobbies: "+student.getHobbies();
-                info.setText(msg);
-                fbDialogue.setCancelable(true);
-                fbDialogue.show();
+                try {
+                    /*final Dialog fbDialogue = new Dialog(MainActivity.this, android.R.style.Theme_Black_NoTitleBar);
+                    Objects.requireNonNull(fbDialogue.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.argb(100, 0, 0, 0)));
+                    fbDialogue.setContentView(R.layout.popup);
+
+                    fbDialogue.setCancelable(true);
+                    fbDialogue.show();*/
+                    //TextView info = findViewById(R.id.infoTextFragment);
+                    String msg = "Name: "+name.getText()+" (Contains "+student.getNumberOfWords()+" words)\n"
+                            +"Registeration Number: "+student.getRegNumber()+"\n"
+                            +"Date of birth: "+currentDay+"/"+currentMonth+"/"+currentYear+"Age( "+student.getAge(currentYear,currentMonth,currentDay)
+                            +"Years) "+"\n"
+                            +"CNIC: "+student.getCnic()+"\n"
+                            +"Gender: "+student.getGender()+"\n"
+                            +"Hobbies: "+ student.getHobbies()[0];
+                    //info.setText(msg);
+                    Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                } catch (Exception e) {
+                    Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

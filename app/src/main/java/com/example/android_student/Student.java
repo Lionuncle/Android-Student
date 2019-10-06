@@ -4,12 +4,12 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class Student {
-    String name;
-    String regNumber;
-    Date dateOfBirth;
-    double cgpa;
-    String cnic;
-    String[] hobbies= new String[10];
+    private String name;
+    private String regNumber;
+    private Date dateOfBirth;
+    private double cgpa;
+    private String cnic;
+    private String[] hobbies= new String[1];
 //constructors
     public Student() { }
 
@@ -49,6 +49,7 @@ public class Student {
             return "FEMALE";
         }
         else return "MALE";
+
         //return String.valueOf(chars.length);
         /*if(chars[chars.length -1] % 2 == 0){
             return "FEMALE";
