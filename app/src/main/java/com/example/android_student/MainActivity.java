@@ -1,22 +1,21 @@
 package com.example.android_student;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
-
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Editable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.Arrays;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
@@ -33,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
     Button getNoOfWords;
     Button getInfo;
     Button save;
+    Boolean isCompleteInfo = false;
+    private static int count =0;
     Student student = new Student();
     public static int currentYear;
     public static int currentMonth;
@@ -62,12 +63,79 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 try{
-                    student.setName(name.getText().toString());
-                    student.setCgpa( Double.valueOf(cgpa.getText().toString()) );
-                    student.setRegNumber(regNumber.getText().toString());
-                    student.setCnic(cnic.getText().toString());
-                    String[] hob = new String[20];hob[0] = hobbies.getText().toString();
-                    student.setHobbies(hob);
+                    if(!name.getText().toString().matches(""))
+                    {
+                        student.setName(name.getText().toString());
+                        count++;
+                        // not null not empty
+                    }else {
+                        //null or empty
+                        name.setHintTextColor(Color.RED);
+                        //Toast.makeText(MainActivity.this, "Please enter name", Toast.LENGTH_SHORT).show();
+                    }
+                    if(!cgpa.getText().toString().matches(""))
+                    {
+                        if (Double.valueOf(cgpa.getText().toString()) >1.0 && (Double.valueOf(cgpa.getText().toString())<4.0 )){
+
+                            student.setCgpa( Double.valueOf(cgpa.getText().toString()) );
+                            count++;
+                        }
+                        else {
+                            Toast.makeText(MainActivity.this, "GPA must be between 1.0 & 4.0", Toast.LENGTH_SHORT).show();
+                            cgpa.setText("");
+                            cgpa.setHintTextColor(Color.RED);
+                        }
+                        // not null not empty
+                    }else {
+                        //null or empty
+                        cgpa.setHintTextColor(Color.RED);
+                    }
+                    if(!regNumber.getText().toString().matches(""))
+                    {
+                        student.setRegNumber(regNumber.getText().toString());
+                        count++;
+                        // not null not empty
+                    }else {
+                        //null or empty
+                        regNumber.setHintTextColor(Color.RED);
+                    }
+                    if(!cnic.getText().toString().matches(""))
+                    {
+                        if ((cnic.getText().toString().length())==13){
+                            student.setCnic(cnic.getText().toString());
+                            count++;
+                        }
+                        else {
+                            Toast.makeText(MainActivity.this, "CNIC must be 13 digits", Toast.LENGTH_SHORT).show();
+                            cnic.setText("");
+                            cnic.setHintTextColor(Color.RED);
+                        }
+                        // not null not empty
+                    }else {
+                        cnic.setHintTextColor(Color.RED);
+                        //null or empty
+                    }
+                    if(!hobbies.getText().toString().matches(""))
+                    {
+                        String[] hob = new String[20];hob[0] = hobbies.getText().toString();
+                        student.setHobbies(hob);
+                        count++;
+                        // not null not empty
+                    }else {
+                        hobbies.setHintTextColor(Color.RED);
+                        //null or empty
+                    }
+                    if (!(count == 5)){
+                        //Toast.makeText(MainActivity.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+                        isCompleteInfo = false;
+                    }
+                    else{
+                        Toast.makeText(MainActivity.this, "saved!", Toast.LENGTH_SHORT).show();
+                        isCompleteInfo = true;
+                    }
+
+
+
                 } catch (Exception e) {
                     Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
                 }
@@ -81,6 +149,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 try {
+                    if(!isCompleteInfo){
+                        Toast.makeText(MainActivity.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
                     Toast.makeText(MainActivity.this, student.getGender(), Toast.LENGTH_SHORT).show();
                 }
                 catch(Exception e){
@@ -92,7 +165,11 @@ public class MainActivity extends AppCompatActivity {
         getAge.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
                 try{
-
+                    if(!isCompleteInfo){
+                        Toast.makeText(MainActivity.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    Toast.makeText(MainActivity.this, student.getAge(currentYear,currentMonth,currentDay)+" Years old", Toast.LENGTH_SHORT).show();
 
                 } catch (Exception e) {
                     Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
@@ -102,6 +179,10 @@ public class MainActivity extends AppCompatActivity {
         getNoOfWords.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
                 try{
+                    if(!isCompleteInfo){
+                        Toast.makeText(MainActivity.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                     Toast.makeText(MainActivity.this, String.valueOf(student.getNumberOfWords()), Toast.LENGTH_SHORT).show();
 
                 } catch (Exception e) {
@@ -112,6 +193,10 @@ public class MainActivity extends AppCompatActivity {
         getStatus.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
                 try{
+                    if(!isCompleteInfo){
+                        Toast.makeText(MainActivity.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                     Toast.makeText(MainActivity.this, student.getStatus(), Toast.LENGTH_SHORT).show();
 
                 } catch (Exception e) {
@@ -119,31 +204,24 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-        getAge.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View view){
-                Toast.makeText(MainActivity.this, String.valueOf(student.getAge(currentYear,currentMonth,currentDay)), Toast.LENGTH_SHORT).show();
-            }
-        });
+
 
         getInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
-                    /*final Dialog fbDialogue = new Dialog(MainActivity.this, android.R.style.Theme_Black_NoTitleBar);
-                    Objects.requireNonNull(fbDialogue.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.argb(100, 0, 0, 0)));
-                    fbDialogue.setContentView(R.layout.popup);
-
-                    fbDialogue.setCancelable(true);
-                    fbDialogue.show();*/
-                    //TextView info = findViewById(R.id.infoTextFragment);
+                    if(!isCompleteInfo){
+                        Toast.makeText(MainActivity.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                     String msg = "Name: "+name.getText()+" (Contains "+student.getNumberOfWords()+" words)\n"
                             +"Registeration Number: "+student.getRegNumber()+"\n"
+                            +"CGPA: "+student.getCgpa()+" "+student.getStatus()+"\n"
                             +"Date of birth: "+currentDay+"/"+currentMonth+"/"+currentYear+"Age( "+student.getAge(currentYear,currentMonth,currentDay)
-                            +"Years) "+"\n"
+                            +" Years) "+"\n"
                             +"CNIC: "+student.getCnic()+"\n"
                             +"Gender: "+student.getGender()+"\n"
                             +"Hobbies: "+ student.getHobbies()[0];
-                    //info.setText(msg);
                     Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
                 } catch (Exception e) {
                     Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
@@ -154,10 +232,12 @@ public class MainActivity extends AppCompatActivity {
 
 
     }//onCreate
+
     ///////////////////////////////date picker
     public static class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {
 
+        @NonNull
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             final Calendar c = Calendar.getInstance();
@@ -165,9 +245,10 @@ public class MainActivity extends AppCompatActivity {
             int month = c.get(Calendar.MONTH);
             int day = c.get(Calendar.DAY_OF_MONTH);
 
-            return new DatePickerDialog(getActivity(), this, year, month, day);
+            return new DatePickerDialog(Objects.requireNonNull(getActivity()), this, year, month, day);
         }
 
+        @SuppressLint("SetTextI18n")
         public void onDateSet(DatePicker view, int year, int month, int day) {
 
             int cYear = Calendar.getInstance().get(Calendar.YEAR);
