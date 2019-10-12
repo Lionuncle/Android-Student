@@ -33,7 +33,14 @@ public class Student {
         return age;
     }
     public int getNumberOfWords(){
-        return name.length();
+        int noOfWorkds = 0;
+        for(int i=0; i<name.length();i++){
+            if(name.charAt(i) == ' '){
+                noOfWorkds++;
+            }
+        }
+        noOfWorkds++;
+        return noOfWorkds;
     }
     public String getStatus(){
         if(cgpa<2.0) return "suspended";

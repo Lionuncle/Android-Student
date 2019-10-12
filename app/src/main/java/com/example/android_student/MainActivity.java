@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
                         hobbies.setHintTextColor(Color.RED);
                         //null or empty
                     }
-                    if (!(count == 5)){
+                    if (!(count >= 5)){
                         //Toast.makeText(MainActivity.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
                         isCompleteInfo = false;
                     }
@@ -224,7 +224,7 @@ public class MainActivity extends AppCompatActivity {
                             +"Hobbies: "+ student.getHobbies()[0];
                     Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
                 } catch (Exception e) {
-                    Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_LONG).show();
                 }
             }
         });
